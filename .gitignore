@@ -1,0 +1,23 @@
+# Dependencies & Build
+node_modules/
+dist/
+build/
+
+# Environment & Local DB
+.env
+.env.local
+*.db
+fashionpanda.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# IDE & System
+.DS_Store
+.vscode/
+.idea/
