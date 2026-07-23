@@ -1,0 +1,168 @@
+import { Product, User, Order } from '../types';
+
+export const INITIAL_USERS: User[] = [
+  {
+    id: 'user-1',
+    name: 'Anni Rahman',
+    email: 'anni@fashionpanda.com',
+    role: 'customer',
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    address: '742 Evergreen Terrace, Fashion District',
+    createdAt: '2026-01-15'
+  },
+  {
+    id: 'user-2',
+    name: 'Velvet Vault Boutique',
+    email: 'contact@velvetvault.com',
+    role: 'retailer',
+    storeName: 'Velvet Vault Boutique',
+    avatarUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=300&q=80',
+    address: '108 Soho Fashion Street',
+    createdAt: '2026-02-01'
+  },
+  {
+    id: 'user-3',
+    name: 'Panda Admin',
+    email: 'admin@fashionpanda.com',
+    role: 'admin',
+    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+    createdAt: '2026-01-01'
+  }
+];
+
+export const INITIAL_PRODUCTS: Product[] = [
+  {
+    id: 'prod-101',
+    name: 'Neon Cyberpunk Oversized Hoodie',
+    description: 'Heavyweight organic cotton hoodie with futuristic reflective print and magnetic zip pockets. Engineered for luxury comfort.',
+    price: 129.99,
+    originalPrice: 169.99,
+    category: 'Streetwear',
+    imageUrl: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
+    stock: 24,
+    retailerId: 'user-2',
+    retailerName: 'Velvet Vault Boutique',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Obsidian Black', 'Cyber Neon', 'Slate Gray'],
+    rating: 4.9,
+    deliveryEtaMinutes: 45,
+    isExpress: true,
+    createdAt: '2026-07-01'
+  },
+  {
+    id: 'prod-102',
+    name: 'Tailored Velvet Double-Breasted Blazer',
+    description: 'Italian velvet tailored blazer with satin peak lapels. Perfect for evening galas and executive meetings.',
+    price: 349.50,
+    originalPrice: 420.00,
+    category: 'Formal',
+    imageUrl: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80',
+    stock: 8,
+    retailerId: 'user-2',
+    retailerName: 'Velvet Vault Boutique',
+    sizes: ['M', 'L', 'XL'],
+    colors: ['Midnight Blue', 'Emerald Green', 'Deep Plum'],
+    rating: 4.8,
+    deliveryEtaMinutes: 60,
+    isExpress: false,
+    createdAt: '2026-07-05'
+  },
+  {
+    id: 'prod-103',
+    name: 'Retro Acid-Wash Denim Jacket',
+    description: 'Vintage 90s inspired distressed denim with plush shearling lining. Express local store pickup available.',
+    price: 189.00,
+    originalPrice: 215.00,
+    category: 'Streetwear',
+    imageUrl: 'https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=800&q=80',
+    stock: 15,
+    retailerId: 'user-2',
+    retailerName: 'Urban Threadz',
+    sizes: ['XS', 'S', 'M', 'L'],
+    colors: ['Vintage Wash', 'Blackout Denim'],
+    rating: 4.7,
+    deliveryEtaMinutes: 30,
+    isExpress: true,
+    createdAt: '2026-07-10'
+  },
+  {
+    id: 'prod-104',
+    name: 'Minimalist Silk Satin Slip Dress',
+    description: '100% Mulberry silk slip dress featuring adjustable crossover back straps and side slit elegance.',
+    price: 210.00,
+    category: 'Luxury',
+    imageUrl: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80',
+    stock: 12,
+    retailerId: 'user-2',
+    retailerName: 'Velvet Vault Boutique',
+    sizes: ['XS', 'S', 'M'],
+    colors: ['Champagne Gold', 'Onyx Black', 'Rose Rust'],
+    rating: 4.95,
+    deliveryEtaMinutes: 50,
+    isExpress: true,
+    createdAt: '2026-07-12'
+  },
+  {
+    id: 'prod-105',
+    name: 'Chunky Sole Leather Chelsea Boots',
+    description: 'Handcrafted full-grain leather boots with anti-slip rubber lug sole. Weatherproof and stylish.',
+    price: 265.00,
+    originalPrice: 299.00,
+    category: 'Footwear',
+    imageUrl: 'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80',
+    stock: 18,
+    retailerId: 'user-2',
+    retailerName: 'Panda Kicks & Co',
+    sizes: ['40', '41', '42', '43', '44'],
+    colors: ['Matte Black', 'Chestnut Brown'],
+    rating: 4.85,
+    deliveryEtaMinutes: 40,
+    isExpress: true,
+    createdAt: '2026-07-15'
+  },
+  {
+    id: 'prod-106',
+    name: 'Panda Gold-Plated Chunky Chain Necklace',
+    description: '18k gold vermeil Cuban link chain with custom micro panda emblem pendant.',
+    price: 95.00,
+    category: 'Accessories',
+    imageUrl: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80',
+    stock: 30,
+    retailerId: 'user-2',
+    retailerName: 'Velvet Vault Boutique',
+    sizes: ['One Size'],
+    colors: ['18K Yellow Gold', 'Sterling Silver'],
+    rating: 4.9,
+    deliveryEtaMinutes: 35,
+    isExpress: true,
+    createdAt: '2026-07-18'
+  }
+];
+
+export const INITIAL_ORDERS: Order[] = [
+  {
+    id: 'ORD-9821',
+    userId: 'user-1',
+    userName: 'Anni Rahman',
+    userAddress: '742 Evergreen Terrace, Fashion District',
+    userPhone: '+1 (555) 019-2834',
+    items: [
+      {
+        product: INITIAL_PRODUCTS[0],
+        selectedSize: 'L',
+        selectedColor: 'Obsidian Black',
+        quantity: 1
+      }
+    ],
+    subtotal: 129.99,
+    deliveryFee: 4.99,
+    tax: 10.40,
+    totalAmount: 145.38,
+    paymentMethod: 'Credit Card',
+    status: 'On The Way',
+    estimatedDeliveryTime: '25 mins',
+    courierName: 'Marco (Panda Rider #14)',
+    courierPhone: '+1 (555) 988-1212',
+    createdAt: '2026-07-23 10:30'
+  }
+];
