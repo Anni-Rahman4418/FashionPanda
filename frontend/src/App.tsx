@@ -1,8 +1,7 @@
 import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Navbar } from './components/Navbar';
-import { HeroBanner } from './components/HeroBanner';
-import { ProductCard } from './components/ProductCard';
+import { CustomerMarketplace } from './components/CustomerMarketplace';
 import { ProductFormModal } from './components/ProductFormModal';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartDrawer } from './components/CartDrawer';
@@ -10,32 +9,14 @@ import { AuthModal } from './components/AuthModal';
 import { OrderTrackerModal } from './components/OrderTrackerModal';
 import { RetailerManager } from './components/RetailerManager';
 import { AdminManager } from './components/AdminManager';
-import { SearchIcon } from './components/Icons';
 
 const MainContent: React.FC = () => {
-  const {
-    products,
-    isLoadingProducts,
-    selectedCategory,
-    searchQuery,
-    currentUser,
-    toast
-  } = useApp();
-
-  // Filter products by category and search query
-  const filteredProducts = products.filter(p => {
-    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
-    const matchesSearch = searchQuery === '' ||
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.retailerName.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const { activeView, toast } = useApp();
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       
-      {/* NAVIGATION BAR */}
+      {/* NAVIGATION HEADER */}
       <Navbar />
 
       {/* TOAST NOTIFICATION */}
@@ -64,51 +45,16 @@ const MainContent: React.FC = () => {
         </div>
       )}
 
-      {/* CONDITIONAL RENDER BASED ON ACTIVE ROLE */}
-      {currentUser.role === 'retailer' ? (
-        <RetailerManager />
-      ) : currentUser.role === 'admin' ? (
-        <AdminManager />
-      ) : (
-        <main style={{ flex: 1 }}>
-          <HeroBanner />
-
-          {/* MAIN PRODUCT CATALOG GRID */}
-          <section style={{ maxWidth: '1280px', margin: '36px auto', padding: '0 24px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-              <div>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 800 }}>
-                  {selectedCategory === 'All' ? 'Boutique Express Catalog' : `${selectedCategory} Collection`}
-                </h2>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                  {filteredProducts.length} local fashion items ready for 60-minute express courier delivery
-                </p>
-              </div>
-            </div>
-
-            {isLoadingProducts ? (
-              <div style={{ textAlign: 'center', padding: '60px', color: 'var(--text-muted)' }}>
-                <div className="animate-spin" style={{ fontSize: '2rem', marginBottom: '12px' }}>🐼</div>
-                Loading luxury catalog...
-              </div>
-            ) : filteredProducts.length === 0 ? (
-              <div className="glass-card" style={{ padding: '60px', textAlign: 'center', color: 'var(--text-muted)' }}>
-                <SearchIcon style={{ width: '40px', height: '40px', margin: '0 auto 12px', color: 'var(--accent-pink)' }} />
-                <h3>No fashion items found</h3>
-                <p style={{ fontSize: '0.85rem', marginTop: '6px' }}>
-                  Try adjusting your search filters or browse other categories.
-                </p>
-              </div>
-            ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
-                {filteredProducts.map(product => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
-          </section>
-        </main>
-      )}
+      {/* MAIN VIEW SWITCHER */}
+      <main style={{ flex: 1 }}>
+        {activeView === 'retailer' ? (
+          <RetailerManager />
+        ) : activeView === 'admin' ? (
+          <AdminManager />
+        ) : (
+          <CustomerMarketplace />
+        )}
+      </main>
 
       {/* FOOTER */}
       <footer className="glass" style={{ marginTop: 'auto', borderTop: '1px solid var(--border-glass)', padding: '32px 24px', textAlign: 'center' }}>
@@ -126,7 +72,7 @@ const MainContent: React.FC = () => {
         </div>
       </footer>
 
-      {/* MODALS */}
+      {/* OVERLAY MODALS & DRAWERS */}
       <ProductFormModal />
       <ProductDetailModal />
       <CartDrawer />

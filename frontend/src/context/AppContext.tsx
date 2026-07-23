@@ -3,7 +3,14 @@ import { Product, User, Order, CartItem, UserRole } from '../types';
 import { apiService } from '../services/api';
 import { INITIAL_USERS } from '../data/mockData';
 
+export type ActiveViewMode = 'marketplace' | 'retailer' | 'admin';
+
 interface AppContextType {
+  // Navigation View & Health
+  activeView: ActiveViewMode;
+  setActiveView: (view: ActiveViewMode) => void;
+  isBackendOnline: boolean;
+
   // Auth & Roles
   currentUser: User;
   users: User[];
@@ -58,6 +65,9 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [activeView, setActiveView] = useState<ActiveViewMode>('marketplace');
+  const [isBackendOnline, setIsBackendOnline] = useState(false);
+
   const [users, setUsers] = useState<User[]>(INITIAL_USERS);
   const [currentUser, setCurrentUser] = useState<User>(INITIAL_USERS[0]);
 
@@ -85,10 +95,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTimeout(() => setToast(null), 3000);
   };
 
-  // Initial Data Load
+  // Initial Data Load & Backend Health Check
   useEffect(() => {
     const loadInitialData = async () => {
       setIsLoadingProducts(true);
+      const isOnline = await apiService.checkBackendHealth();
+      setIsBackendOnline(isOnline);
+
       try {
         const [prods, ords, usrs] = await Promise.all([
           apiService.getProducts(),
@@ -124,7 +137,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setUsers(prev => [...prev, newUser]);
       setCurrentUser(newUser);
     }
-    showToast(`Switched active profile to ${role.toUpperCase()}`, 'info');
+
+    if (role === 'retailer') setActiveView('retailer');
+    else if (role === 'admin') setActiveView('admin');
+    else setActiveView('marketplace');
+
+    showToast(`Switched view to ${role.toUpperCase()}`, 'info');
   };
 
   // USER CRUD
@@ -140,7 +158,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updated = await apiService.updateUser(id, updates);
     setUsers(prev => prev.map(u => u.id === id ? updated : u));
     if (currentUser.id === id) setCurrentUser(updated);
-    showToast('User profile updated successfully', 'success');
+    showToast('User profile updated', 'success');
     return updated;
   };
 
@@ -154,7 +172,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const addProduct = async (productData: Omit<Product, 'id' | 'createdAt'>): Promise<Product> => {
     const created = await apiService.createProduct(productData);
     setProducts(prev => [created, ...prev]);
-    showToast(`Added product "${created.name}" to catalog!`, 'success');
+    showToast(`Added product "${created.name}"`, 'success');
     return created;
   };
 
@@ -241,7 +259,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setActiveOrder(newOrder);
     clearCart();
     setIsCartOpen(false);
-    showToast('Order placed successfully! Panda rider assigned 🛵', 'success');
+    showToast('Order placed! Express courier assigned 🛵', 'success');
     return newOrder;
   };
 
@@ -262,6 +280,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   return (
     <AppContext.Provider
       value={{
+        activeView,
+        setActiveView,
+        isBackendOnline,
         currentUser,
         users,
         setCurrentUser,

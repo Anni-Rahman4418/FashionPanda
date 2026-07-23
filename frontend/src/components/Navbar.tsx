@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp, ActiveViewMode } from '../context/AppContext';
 import { PandaIcon, SearchIcon, ShoppingBagIcon, UserIcon, TruckIcon, PlusIcon } from './Icons';
 import { UserRole } from '../types';
 
@@ -14,69 +14,85 @@ export const Navbar: React.FC = () => {
     activeOrder,
     setIsAuthOpen,
     setIsProductFormOpen,
-    setEditingProduct
+    setEditingProduct,
+    activeView,
+    setActiveView,
+    isBackendOnline
   } = useApp();
 
   const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <header className="glass" style={{ position: 'sticky', top: 0, zIndex: 90, borderBottom: '1px solid var(--border-glass)' }}>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
         
-        {/* LOGO */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setSearchQuery('')}>
+        {/* LOGO & HEALTH INDICATOR */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => { setActiveView('marketplace'); setSearchQuery(''); }}>
           <PandaIcon className="w-8 h-8" />
           <div>
-            <span className="font-serif" style={{ fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
-              Fashion<span className="text-gradient">Panda</span>
-            </span>
-            <span className="badge badge-express" style={{ marginLeft: '8px', fontSize: '0.65rem' }}>
-              ⚡ 60m Express
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span className="font-serif" style={{ fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
+                Fashion<span className="text-gradient">Panda</span>
+              </span>
+              <span className="badge badge-express" style={{ fontSize: '0.65rem' }}>
+                ⚡ 60m Express
+              </span>
+            </div>
+
+            {/* API Health Pill */}
+            <div style={{ fontSize: '0.7rem', color: isBackendOnline ? 'var(--accent-green)' : 'var(--accent-gold)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span>{isBackendOnline ? '🟢 FastAPI Connected' : '🟠 Local DB Mode'}</span>
+            </div>
           </div>
         </div>
 
-        {/* SEARCH BAR */}
-        <div style={{ flex: 1, maxWidth: '480px', position: 'relative' }}>
-          <div style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>
-            <SearchIcon />
-          </div>
-          <input
-            type="text"
-            className="form-input"
-            style={{ paddingLeft: '44px', borderRadius: 'var(--radius-full)', background: 'rgba(255,255,255,0.05)' }}
-            placeholder="Search luxury streetwear, velvet suits, shoes..."
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-          />
+        {/* VIEW NAVIGATION TABS */}
+        <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.5)', padding: '4px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-glass)' }}>
+          {[
+            { id: 'marketplace', label: '🛍️ Shop Catalog' },
+            { id: 'retailer', label: '🏪 Retailer Portal' },
+            { id: 'admin', label: '🛡️ Admin Dashboard' }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveView(tab.id as ActiveViewMode)}
+              className="btn btn-sm"
+              style={{
+                padding: '6px 14px',
+                fontSize: '0.8rem',
+                borderRadius: 'var(--radius-full)',
+                background: activeView === tab.id ? 'var(--accent-pink)' : 'transparent',
+                color: activeView === tab.id ? '#fff' : 'var(--text-muted)',
+                border: 'none'
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
+
+        {/* SEARCH BAR (Marketplace View) */}
+        {activeView === 'marketplace' && (
+          <div style={{ flex: 1, maxWidth: '360px', position: 'relative' }}>
+            <div style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>
+              <SearchIcon />
+            </div>
+            <input
+              type="text"
+              className="form-input"
+              style={{ paddingLeft: '44px', borderRadius: 'var(--radius-full)', background: 'rgba(255,255,255,0.05)' }}
+              placeholder="Search fashion items..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
+          </div>
+        )}
 
         {/* ACTIONS & ROLE SWITCHER */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           
-          {/* Quick Role Switcher */}
-          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.4)', padding: '4px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-glass)' }}>
-            {(['customer', 'retailer', 'admin'] as UserRole[]).map(role => (
-              <button
-                key={role}
-                onClick={() => switchRole(role)}
-                className="btn btn-sm"
-                style={{
-                  padding: '4px 10px',
-                  fontSize: '0.75rem',
-                  borderRadius: 'var(--radius-full)',
-                  background: currentUser.role === role ? 'var(--accent-pink)' : 'transparent',
-                  color: currentUser.role === role ? '#fff' : 'var(--text-muted)',
-                  border: 'none'
-                }}
-              >
-                {role.charAt(0).toUpperCase() + role.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {/* Create Product Button (Visible to Retailer & Admin) */}
-          {(currentUser.role === 'retailer' || currentUser.role === 'admin') && (
+          {/* Add Product Button (Visible in Retailer / Admin Views) */}
+          {(activeView === 'retailer' || activeView === 'admin') && (
             <button
               onClick={() => {
                 setEditingProduct(null);
@@ -84,11 +100,11 @@ export const Navbar: React.FC = () => {
               }}
               className="btn btn-primary btn-sm"
             >
-              <PlusIcon /> Add Product
+              <PlusIcon /> Add Item
             </button>
           )}
 
-          {/* Active Order Button */}
+          {/* Active Order Tracker Button */}
           {activeOrder && (
             <div
               className="glass-card"
@@ -105,7 +121,7 @@ export const Navbar: React.FC = () => {
             >
               <TruckIcon style={{ color: 'var(--accent-cyan)' }} />
               <div style={{ fontSize: '0.75rem', lineHeight: 1.2 }}>
-                <span style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>Order Track</span>
+                <span style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>Track Order</span>
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>{activeOrder.status}</div>
               </div>
             </div>
@@ -116,6 +132,7 @@ export const Navbar: React.FC = () => {
             onClick={() => setIsCartOpen(true)}
             className="btn btn-secondary btn-icon"
             style={{ position: 'relative' }}
+            title="Shopping Bag"
           >
             <ShoppingBagIcon />
             {totalCartCount > 0 && (
@@ -141,7 +158,7 @@ export const Navbar: React.FC = () => {
             )}
           </button>
 
-          {/* User Profile / Auth Modal */}
+          {/* Profile / Account Drawer */}
           <button
             onClick={() => setIsAuthOpen(true)}
             className="btn btn-secondary"

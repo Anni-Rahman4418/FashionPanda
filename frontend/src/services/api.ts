@@ -2,18 +2,15 @@ import axios from 'axios';
 import { Product, Order, User } from '../types';
 import { INITIAL_PRODUCTS, INITIAL_ORDERS, INITIAL_USERS } from '../data/mockData';
 
-const API_BASE = '/api';
+const API_BASE = 'http://localhost:8000/api';
 
-// Local storage keys
 const STORAGE_KEYS = {
   PRODUCTS: 'fp_products',
   ORDERS: 'fp_orders',
   USERS: 'fp_users',
-  CART: 'fp_cart',
-  USER: 'fp_active_user'
+  CART: 'fp_cart'
 };
 
-// Helper to get stored items or initialize with defaults
 const getStored = <T>(key: string, fallback: T): T => {
   try {
     const raw = localStorage.getItem(key);
@@ -32,27 +29,36 @@ const setStored = <T>(key: string, value: T): void => {
 };
 
 export const apiService = {
+  async checkBackendHealth(): Promise<boolean> {
+    try {
+      const res = await axios.get('http://localhost:8000/', { timeout: 2500 });
+      return res.status === 200;
+    } catch {
+      return false;
+    }
+  },
+
   // PRODUCTS CRUD
   async getProducts(): Promise<Product[]> {
     try {
-      const res = await axios.get(`${API_BASE}/products`);
+      const res = await axios.get(`${API_BASE}/products`, { timeout: 3000 });
+      setStored(STORAGE_KEYS.PRODUCTS, res.data);
       return res.data;
     } catch (err) {
-      // LocalStorage fallback
       return getStored<Product[]>(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
     }
   },
 
   async createProduct(productData: Omit<Product, 'id' | 'createdAt'>): Promise<Product> {
-    const newProduct: Product = {
-      ...productData,
-      id: `prod-${Date.now()}`,
-      createdAt: new Date().toISOString().split('T')[0]
-    };
     try {
-      const res = await axios.post(`${API_BASE}/products`, newProduct);
+      const res = await axios.post(`${API_BASE}/products`, productData, { timeout: 3000 });
       return res.data;
     } catch (err) {
+      const newProduct: Product = {
+        ...productData,
+        id: `prod-${Date.now()}`,
+        createdAt: new Date().toISOString().split('T')[0]
+      };
       const products = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
       const updated = [newProduct, ...products];
       setStored(STORAGE_KEYS.PRODUCTS, updated);
@@ -62,7 +68,7 @@ export const apiService = {
 
   async updateProduct(id: string, updates: Partial<Product>): Promise<Product> {
     try {
-      const res = await axios.put(`${API_BASE}/products/${id}`, updates);
+      const res = await axios.put(`${API_BASE}/products/${id}`, updates, { timeout: 3000 });
       return res.data;
     } catch (err) {
       const products = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
@@ -77,12 +83,11 @@ export const apiService = {
 
   async deleteProduct(id: string): Promise<boolean> {
     try {
-      await axios.delete(`${API_BASE}/products/${id}`);
+      await axios.delete(`${API_BASE}/products/${id}`, { timeout: 3000 });
       return true;
     } catch (err) {
       const products = getStored<Product[]>(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
-      const filtered = products.filter(p => p.id !== id);
-      setStored(STORAGE_KEYS.PRODUCTS, filtered);
+      setStored(STORAGE_KEYS.PRODUCTS, products.filter(p => p.id !== id));
       return true;
     }
   },
@@ -90,7 +95,8 @@ export const apiService = {
   // ORDERS CRUD
   async getOrders(): Promise<Order[]> {
     try {
-      const res = await axios.get(`${API_BASE}/orders`);
+      const res = await axios.get(`${API_BASE}/orders`, { timeout: 3000 });
+      setStored(STORAGE_KEYS.ORDERS, res.data);
       return res.data;
     } catch (err) {
       return getStored<Order[]>(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
@@ -98,15 +104,15 @@ export const apiService = {
   },
 
   async createOrder(orderData: Omit<Order, 'id' | 'createdAt'>): Promise<Order> {
-    const newOrder: Order = {
-      ...orderData,
-      id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
-      createdAt: new Date().toLocaleString()
-    };
     try {
-      const res = await axios.post(`${API_BASE}/orders`, newOrder);
+      const res = await axios.post(`${API_BASE}/orders`, orderData, { timeout: 3000 });
       return res.data;
     } catch (err) {
+      const newOrder: Order = {
+        ...orderData,
+        id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+        createdAt: new Date().toLocaleString()
+      };
       const orders = getStored<Order[]>(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
       const updated = [newOrder, ...orders];
       setStored(STORAGE_KEYS.ORDERS, updated);
@@ -116,7 +122,7 @@ export const apiService = {
 
   async updateOrderStatus(id: string, status: Order['status']): Promise<Order> {
     try {
-      const res = await axios.put(`${API_BASE}/orders/${id}`, { status });
+      const res = await axios.put(`${API_BASE}/orders/${id}`, { status }, { timeout: 3000 });
       return res.data;
     } catch (err) {
       const orders = getStored<Order[]>(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
@@ -135,7 +141,8 @@ export const apiService = {
   // USERS CRUD
   async getUsers(): Promise<User[]> {
     try {
-      const res = await axios.get(`${API_BASE}/users`);
+      const res = await axios.get(`${API_BASE}/users`, { timeout: 3000 });
+      setStored(STORAGE_KEYS.USERS, res.data);
       return res.data;
     } catch (err) {
       return getStored<User[]>(STORAGE_KEYS.USERS, INITIAL_USERS);
@@ -143,25 +150,24 @@ export const apiService = {
   },
 
   async createUser(userData: Omit<User, 'id' | 'createdAt'>): Promise<User> {
-    const newUser: User = {
-      ...userData,
-      id: `user-${Date.now()}`,
-      createdAt: new Date().toISOString().split('T')[0]
-    };
     try {
-      const res = await axios.post(`${API_BASE}/register`, newUser);
+      const res = await axios.post(`${API_BASE}/register`, userData, { timeout: 3000 });
       return res.data;
     } catch (err) {
+      const newUser: User = {
+        ...userData,
+        id: `user-${Date.now()}`,
+        createdAt: new Date().toISOString().split('T')[0]
+      };
       const users = getStored<User[]>(STORAGE_KEYS.USERS, INITIAL_USERS);
-      const updated = [...users, newUser];
-      setStored(STORAGE_KEYS.USERS, updated);
+      setStored(STORAGE_KEYS.USERS, [...users, newUser]);
       return newUser;
     }
   },
 
   async updateUser(id: string, updates: Partial<User>): Promise<User> {
     try {
-      const res = await axios.put(`${API_BASE}/users/${id}`, updates);
+      const res = await axios.put(`${API_BASE}/users/${id}`, updates, { timeout: 3000 });
       return res.data;
     } catch (err) {
       const users = getStored<User[]>(STORAGE_KEYS.USERS, INITIAL_USERS);
@@ -175,7 +181,7 @@ export const apiService = {
 
   async deleteUser(id: string): Promise<boolean> {
     try {
-      await axios.delete(`${API_BASE}/users/${id}`);
+      await axios.delete(`${API_BASE}/users/${id}`, { timeout: 3000 });
       return true;
     } catch (err) {
       const users = getStored<User[]>(STORAGE_KEYS.USERS, INITIAL_USERS);
