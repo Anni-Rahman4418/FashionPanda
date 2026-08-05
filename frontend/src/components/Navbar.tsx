@@ -26,25 +26,12 @@ export const Navbar: React.FC = () => {
   return (
     <header className="glass" style={{ position: 'sticky', top: 0, zIndex: 90, borderBottom: '1px solid var(--ink)' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
-        
-        {/* LOGO & HEALTH INDICATOR */}
+      {/* LOGO */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => { setActiveView('marketplace'); setSearchQuery(''); }}>
           <PandaIcon className="w-8 h-8" />
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="font-serif" style={{ fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
-                Fashion<span className="text-gradient">Panda</span>
-              </span>
-              <span className="badge badge-express" style={{ fontSize: '0.65rem' }}>
-                ⚡ 60m Express
-              </span>
-            </div>
-
-            {/* API Health Pill */}
-            <div style={{ fontSize: '0.7rem', color: isBackendOnline ? 'var(--accent-green)' : 'var(--accent-gold)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span>{isBackendOnline ? '🟢 FastAPI Connected' : '🟠 Local DB Mode'}</span>
-            </div>
-          </div>
+          <span className="font-serif" style={{ fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
+            Fashion<span className="text-gradient">Panda</span>
+          </span>
         </div>
 
         {/* VIEW NAVIGATION TABS */}
