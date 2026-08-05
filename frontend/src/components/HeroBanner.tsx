@@ -2,62 +2,106 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 
 const CATEGORIES = ['All', 'Streetwear', 'Formal', 'Casual', 'Accessories', 'Luxury', 'Footwear'];
+const TICKER_ITEMS = ['NEW DROPS WEEKLY', 'EXPRESS 45–60 MIN', 'LOCAL BOUTIQUES ONLY', 'FREE 30-DAY RETURNS', 'VERIFIED RETAILERS'];
 
 export const HeroBanner: React.FC = () => {
   const { selectedCategory, setSelectedCategory } = useApp();
 
   return (
-    <div style={{ maxWidth: '1280px', margin: '24px auto 0', padding: '0 24px' }}>
-      
-      {/* HERO BANNER CARD */}
+    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
+
+      {/* SCROLLING BOUTIQUE-WINDOW TICKER */}
       <div
-        className="glass-card"
         style={{
-          position: 'relative',
-          padding: '48px 40px',
-          borderRadius: 'var(--radius-lg)',
+          marginTop: '20px',
           overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          minHeight: '260px',
-          background: 'linear-gradient(135deg, #fdeaf3 0%, #fbe0ee 45%, #fff7fb 100%)',
-          border: '1px solid #f6cfe4'
+          borderTop: '1px solid var(--ink)',
+          borderBottom: '1px solid var(--ink)',
+          padding: '8px 0',
         }}
       >
-        <div style={{ maxWidth: '600px', zIndex: 2 }}>
-          <div style={{ display: 'inline-flex', gap: '8px', marginBottom: '12px' }}>
-            <span className="badge badge-express">🛵 EXPRESS DELIVERY</span>
-            <span className="badge badge-hot">🔥 NEW DROPS</span>
-          </div>
+        <div className="marquee-track">
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+            <span
+              key={i}
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontWeight: 700,
+                fontSize: '0.95rem',
+                letterSpacing: '0.02em',
+                whiteSpace: 'nowrap',
+                padding: '0 20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '20px'
+              }}
+            >
+              {item} <span style={{ color: 'var(--accent-pink)' }}>✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
 
-          <h1 style={{ fontSize: '2.8rem', fontWeight: 800, lineHeight: 1.1, marginBottom: '12px' }}>
-            Local Boutique Fashion <br />
-            <span className="text-gradient">Delivered in 60 Mins.</span>
+      {/* EDITORIAL HERO */}
+      <div
+        style={{
+          padding: '56px 0 40px',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.4fr) minmax(0, 1fr)',
+          gap: '32px',
+          alignItems: 'end',
+          borderBottom: '1px solid var(--border-glass)'
+        }}
+      >
+        <div>
+          <span
+            style={{
+              display: 'inline-block',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--accent-pink)',
+              marginBottom: '14px'
+            }}
+          >
+            Issue No. 01 — The Express Edit
+          </span>
+          <h1
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+              fontWeight: 800,
+              lineHeight: 0.98,
+              letterSpacing: '-0.02em',
+              color: 'var(--ink)'
+            }}
+          >
+            Boutique fashion,
+            <br />
+            on your doorstep <span style={{ color: 'var(--accent-pink)', fontStyle: 'italic' }}>fast.</span>
           </h1>
+        </div>
 
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', marginBottom: '24px' }}>
-            Shop runway collections, streetwear Grails, and curated local designer boutiques with instant door-to-door express courier delivery.
+        <div style={{ borderLeft: '1px solid var(--border-glass)', paddingLeft: '28px' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '1rem', marginBottom: '18px', lineHeight: 1.6 }}>
+            We courier runway pieces, streetwear grails, and local designer boutique stock straight to your door — usually inside the hour.
           </p>
-
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--text-main)' }}>
-              <span style={{ color: 'var(--accent-pink)', fontSize: '1.2rem' }}>✓</span> Real-Time Order Map Tracking
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem' }}>
+              <span style={{ color: 'var(--accent-pink)' }}>—</span> Real-time courier tracking
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--text-main)' }}>
-              <span style={{ color: 'var(--accent-purple)', fontSize: '1.2rem' }}>✓</span> Verified Retailer Stock
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--text-main)' }}>
-              <span style={{ color: 'var(--accent-cyan)', fontSize: '1.2rem' }}>✓</span> 30-Day Instant Returns
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem' }}>
+              <span style={{ color: 'var(--accent-pink)' }}>—</span> Every retailer verified by hand
             </div>
           </div>
         </div>
       </div>
 
       {/* CATEGORY FILTER PILLS */}
-      <div style={{ marginTop: '28px', display: 'flex', alignItems: 'center', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)', marginRight: '8px' }}>
-          Categories:
+      <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '10px', overflowX: 'auto', paddingBottom: '20px' }}>
+        <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-dim)', marginRight: '4px', whiteSpace: 'nowrap' }}>
+          BROWSE
         </span>
         {CATEGORIES.map(cat => (
           <button
@@ -67,10 +111,9 @@ export const HeroBanner: React.FC = () => {
             style={{
               padding: '8px 18px',
               borderRadius: 'var(--radius-full)',
-              background: selectedCategory === cat ? 'var(--accent-pink)' : '#ffffff',
-              color: selectedCategory === cat ? '#fff' : 'var(--text-muted)',
+              background: selectedCategory === cat ? 'var(--ink)' : '#fffdfb',
+              color: selectedCategory === cat ? '#fffdfb' : 'var(--text-muted)',
               border: selectedCategory === cat ? 'none' : '1px solid var(--border-glass)',
-              boxShadow: selectedCategory === cat ? 'none' : '0 1px 4px rgba(20,20,30,0.06)',
               whiteSpace: 'nowrap'
             }}
           >

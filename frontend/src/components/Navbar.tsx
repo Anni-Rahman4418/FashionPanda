@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
   const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <header className="glass" style={{ position: 'sticky', top: 0, zIndex: 90, borderBottom: '1px solid var(--border-glass)', boxShadow: '0 2px 10px rgba(20,20,30,0.06)' }}>
+    <header className="glass" style={{ position: 'sticky', top: 0, zIndex: 90, borderBottom: '1px solid var(--ink)' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
         
         {/* LOGO & HEALTH INDICATOR */}

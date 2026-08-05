@@ -141,11 +141,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* PRICE & ADD TO CART */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--border-glass)' }}>
           <div>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-main)' }}>
+            <span className="price-tag">
               ${product.price.toFixed(2)}
             </span>
             {product.originalPrice && (
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', textDecoration: 'line-through', marginLeft: '6px' }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', textDecoration: 'line-through', marginLeft: '8px' }}>
                 ${product.originalPrice.toFixed(2)}
               </span>
             )}
