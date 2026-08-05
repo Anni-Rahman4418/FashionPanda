@@ -34,32 +34,7 @@ export const CustomerMarketplace: React.FC = () => {
       {/* HERO PROMO BANNER */}
       <HeroBanner />
 
-      {/* QUICK STATS & PROMO HIGHLIGHTS */}
-      <section style={{ maxWidth: '1280px', margin: '24px auto 0', padding: '0 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-
-          <div className="glass-card" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(139,92,246,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>
-              🛍️
-            </div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>Curated Designer Drops</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Streetwear, formal suits & luxury silk</div>
-            </div>
-          </div>
-
-          <div className="glass-card" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(6,182,212,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>
-              🔄
-            </div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>Instant Courier Returns</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Try on at home with free 30-day returns</div>
-            </div>
-          </div>
-
-        </div>
-      </section>
+     
 
       {/* CATALOG SEARCH & HEADER */}
       <section style={{ maxWidth: '1280px', margin: '36px auto 0', padding: '0 24px' }}>
