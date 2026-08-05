@@ -3,6 +3,7 @@ import { useApp, ActiveViewMode } from '../context/AppContext';
 import { PandaIcon, SearchIcon, ShoppingBagIcon, UserIcon, TruckIcon, PlusIcon } from './Icons';
 import { UserRole } from '../types';
 
+
 export const Navbar: React.FC = () => {
   const {
     currentUser,
