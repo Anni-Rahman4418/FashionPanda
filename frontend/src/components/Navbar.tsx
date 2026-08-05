@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
   const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <header className="glass" style={{ position: 'sticky', top: 0, zIndex: 90, borderBottom: '1px solid var(--border-glass)' }}>
+    <header className="glass" style={{ position: 'sticky', top: 0, zIndex: 90, borderBottom: '1px solid var(--border-glass)', boxShadow: '0 2px 10px rgba(20,20,30,0.06)' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
         
         {/* LOGO & HEALTH INDICATOR */}
@@ -47,7 +47,7 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* VIEW NAVIGATION TABS */}
-        <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.5)', padding: '4px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-glass)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', background: '#f4f4f7', padding: '4px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-glass)' }}>
           {[
             { id: 'marketplace', label: '🛍️ Shop Catalog' },
             { id: 'retailer', label: '🏪 Retailer Portal' },
@@ -80,7 +80,7 @@ export const Navbar: React.FC = () => {
             <input
               type="text"
               className="form-input"
-              style={{ paddingLeft: '44px', borderRadius: 'var(--radius-full)', background: 'rgba(255,255,255,0.05)' }}
+              style={{ paddingLeft: '44px', borderRadius: 'var(--radius-full)', background: '#f4f4f7', border: '1px solid var(--border-glass)' }}
               placeholder="Search fashion items..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}

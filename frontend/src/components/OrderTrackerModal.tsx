@@ -60,7 +60,7 @@ export const OrderTrackerModal: React.FC<{ onClose: () => void }> = ({ onClose }
                 onClick={() => setActiveOrder(o)}
                 className="btn btn-sm"
                 style={{
-                  background: order.id === o.id ? 'var(--accent-purple)' : 'rgba(255,255,255,0.06)',
+                  background: order.id === o.id ? 'var(--accent-purple)' : '#f4f4f7',
                   color: order.id === o.id ? '#fff' : 'var(--text-muted)',
                   border: 'none',
                   whiteSpace: 'nowrap'
@@ -95,7 +95,7 @@ export const OrderTrackerModal: React.FC<{ onClose: () => void }> = ({ onClose }
                           ? 'var(--accent-pink)'
                           : isPassed
                           ? 'var(--accent-cyan)'
-                          : 'rgba(255,255,255,0.1)',
+                          : '#eceef1',
                         color: isPassed ? '#000' : 'var(--text-muted)',
                         display: 'flex',
                         alignItems: 'center',
@@ -141,7 +141,7 @@ export const OrderTrackerModal: React.FC<{ onClose: () => void }> = ({ onClose }
           <h4 style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '10px' }}>ITEMS IN THIS ORDER</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {order.items.map((item, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.03)', padding: '8px 12px', borderRadius: 'var(--radius-sm)' }}>
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f7f7f9', padding: '8px 12px', borderRadius: 'var(--radius-sm)' }}>
                 <span style={{ fontSize: '0.85rem' }}>
                   {item.quantity}x <strong>{item.product.name}</strong> ({item.selectedSize} / {item.selectedColor})
                 </span>

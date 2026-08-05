@@ -21,8 +21,8 @@ export const HeroBanner: React.FC = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           minHeight: '260px',
-          background: 'linear-gradient(135deg, rgba(255, 42, 117, 0.15) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(18, 18, 28, 0.9) 100%)',
-          border: '1px solid rgba(255, 42, 117, 0.25)'
+          background: 'linear-gradient(135deg, #fdeaf3 0%, #fbe0ee 45%, #fff7fb 100%)',
+          border: '1px solid #f6cfe4'
         }}
       >
         <div style={{ maxWidth: '600px', zIndex: 2 }}>
@@ -67,9 +67,10 @@ export const HeroBanner: React.FC = () => {
             style={{
               padding: '8px 18px',
               borderRadius: 'var(--radius-full)',
-              background: selectedCategory === cat ? 'var(--accent-pink)' : 'rgba(255,255,255,0.06)',
+              background: selectedCategory === cat ? 'var(--accent-pink)' : '#ffffff',
               color: selectedCategory === cat ? '#fff' : 'var(--text-muted)',
               border: selectedCategory === cat ? 'none' : '1px solid var(--border-glass)',
+              boxShadow: selectedCategory === cat ? 'none' : '0 1px 4px rgba(20,20,30,0.06)',
               whiteSpace: 'nowrap'
             }}
           >

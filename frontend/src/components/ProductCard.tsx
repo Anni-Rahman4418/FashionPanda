@@ -48,7 +48,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               setIsProductFormOpen(true);
             }}
             className="btn btn-secondary btn-icon"
-            style={{ width: '32px', height: '32px', background: 'rgba(15, 15, 24, 0.85)' }}
+            style={{ width: '32px', height: '32px', background: 'rgba(255, 255, 255, 0.9)' }}
             title="Edit Product"
           >
             <EditIcon />
@@ -88,13 +88,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             left: 0,
             right: 0,
             padding: '8px 12px',
-            background: 'linear-gradient(to top, rgba(10,10,16,0.9), transparent)',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center'
           }}
         >
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>🏪 {product.retailerName}</span>
+          <span style={{ fontSize: '0.75rem', color: '#fff', fontWeight: 600 }}>🏪 {product.retailerName}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: 'var(--accent-gold)' }}>
             <StarIcon /> {product.rating}
           </div>

@@ -83,7 +83,7 @@ export const ProductDetailModal: React.FC = () => {
                       onClick={() => setSelectedSize(size)}
                       className="btn btn-sm"
                       style={{
-                        background: currentSize === size ? 'var(--accent-pink)' : 'rgba(255,255,255,0.06)',
+                        background: currentSize === size ? 'var(--accent-pink)' : '#f4f4f7',
                         color: currentSize === size ? '#fff' : 'var(--text-main)',
                         border: currentSize === size ? 'none' : '1px solid var(--border-glass)'
                       }}
@@ -104,7 +104,7 @@ export const ProductDetailModal: React.FC = () => {
                       onClick={() => setSelectedColor(color)}
                       className="btn btn-sm"
                       style={{
-                        background: currentColor === color ? 'var(--accent-purple)' : 'rgba(255,255,255,0.06)',
+                        background: currentColor === color ? 'var(--accent-purple)' : '#f4f4f7',
                         color: currentColor === color ? '#fff' : 'var(--text-main)',
                         border: currentColor === color ? 'none' : '1px solid var(--border-glass)'
                       }}

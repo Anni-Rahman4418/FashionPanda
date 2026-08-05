@@ -114,7 +114,7 @@ export const AdminManager: React.FC = () => {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
             <thead>
-              <tr style={{ background: 'rgba(255,255,255,0.03)', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-glass)' }}>
+              <tr style={{ background: '#f7f7f9', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-glass)' }}>
                 <th style={{ padding: '14px 20px' }}>User ID</th>
                 <th style={{ padding: '14px 20px' }}>Name</th>
                 <th style={{ padding: '14px 20px' }}>Email</th>

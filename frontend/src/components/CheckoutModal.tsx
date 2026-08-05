@@ -72,7 +72,7 @@ export const CheckoutModal: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                     padding: '12px',
                     borderRadius: 'var(--radius-sm)',
                     border: paymentMethod === method ? '1px solid var(--accent-pink)' : '1px solid var(--border-glass)',
-                    background: paymentMethod === method ? 'rgba(255,42,117,0.15)' : 'rgba(10,10,16,0.6)',
+                    background: paymentMethod === method ? 'rgba(255,42,117,0.15)' : '#f7f7f9',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',

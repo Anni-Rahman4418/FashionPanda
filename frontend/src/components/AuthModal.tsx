@@ -54,7 +54,7 @@ export const AuthModal: React.FC = () => {
           <button
             className="btn btn-sm"
             style={{
-              background: activeTab === 'profile' ? 'var(--accent-pink)' : 'rgba(255,255,255,0.06)',
+              background: activeTab === 'profile' ? 'var(--accent-pink)' : '#f4f4f7',
               color: activeTab === 'profile' ? '#fff' : 'var(--text-muted)'
             }}
             onClick={() => setActiveTab('profile')}
@@ -64,7 +64,7 @@ export const AuthModal: React.FC = () => {
           <button
             className="btn btn-sm"
             style={{
-              background: activeTab === 'orders' ? 'var(--accent-pink)' : 'rgba(255,255,255,0.06)',
+              background: activeTab === 'orders' ? 'var(--accent-pink)' : '#f4f4f7',
               color: activeTab === 'orders' ? '#fff' : 'var(--text-muted)'
             }}
             onClick={() => setActiveTab('orders')}
@@ -74,7 +74,7 @@ export const AuthModal: React.FC = () => {
           <button
             className="btn btn-sm"
             style={{
-              background: activeTab === 'register' ? 'var(--accent-pink)' : 'rgba(255,255,255,0.06)',
+              background: activeTab === 'register' ? 'var(--accent-pink)' : '#f4f4f7',
               color: activeTab === 'register' ? '#fff' : 'var(--text-muted)'
             }}
             onClick={() => setActiveTab('register')}
