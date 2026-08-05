@@ -34,6 +34,7 @@ def login_user(creds: UserLoginSchema):
     row = cursor.fetchone()
     conn.close()
 
+    
     if not row:
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
