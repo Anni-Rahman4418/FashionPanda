@@ -11,7 +11,7 @@ import { RetailerManager } from './components/RetailerManager';
 import { AdminManager } from './components/AdminManager';
 
 const MainContent: React.FC = () => {
-  const { activeView, toast } = useApp();
+  const { activeView, toast, isOrderTrackerOpen, setIsOrderTrackerOpen } = useApp();
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
@@ -77,6 +77,7 @@ const MainContent: React.FC = () => {
       <ProductDetailModal />
       <CartDrawer />
       <AuthModal />
+      {isOrderTrackerOpen && <OrderTrackerModal onClose={() => setIsOrderTrackerOpen(false)} />}
     </div>
   );
 };

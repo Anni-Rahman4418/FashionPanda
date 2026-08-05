@@ -13,6 +13,7 @@ export const Navbar: React.FC = () => {
     setIsCartOpen,
     activeOrder,
     setIsAuthOpen,
+    setIsOrderTrackerOpen,
     setIsProductFormOpen,
     setEditingProduct,
     activeView,
@@ -117,7 +118,7 @@ export const Navbar: React.FC = () => {
                 cursor: 'pointer',
                 borderColor: 'var(--accent-cyan)'
               }}
-              onClick={() => setIsAuthOpen(true)}
+              onClick={() => setIsOrderTrackerOpen(true)}
             >
               <TruckIcon style={{ color: 'var(--accent-cyan)' }} />
               <div style={{ fontSize: '0.75rem', lineHeight: 1.2 }}>

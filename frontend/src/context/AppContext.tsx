@@ -52,6 +52,8 @@ interface AppContextType {
   setIsCartOpen: (open: boolean) => void;
   isAuthOpen: boolean;
   setIsAuthOpen: (open: boolean) => void;
+  isOrderTrackerOpen: boolean;
+  setIsOrderTrackerOpen: (open: boolean) => void;
   editingProduct: Product | null;
   setEditingProduct: (p: Product | null) => void;
   isProductFormOpen: boolean;
@@ -83,6 +85,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Modals
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isOrderTrackerOpen, setIsOrderTrackerOpen] = useState(false);
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [selectedProductDetail, setSelectedProductDetail] = useState<Product | null>(null);
@@ -197,7 +200,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       );
       if (existingIdx > -1) {
         const copy = [...prev];
-        copy[existingIdx].quantity += quantity;
+        copy[existingIdx] = { ...copy[existingIdx], quantity: copy[existingIdx].quantity + quantity };
         return copy;
       }
       return [...prev, { product, selectedSize: size, selectedColor: color, quantity }];
@@ -212,7 +215,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
     setCart(prev => {
       const copy = [...prev];
-      copy[index].quantity = quantity;
+      copy[index] = { ...copy[index], quantity };
       return copy;
     });
   };
@@ -315,6 +318,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsCartOpen,
         isAuthOpen,
         setIsAuthOpen,
+        isOrderTrackerOpen,
+        setIsOrderTrackerOpen,
         editingProduct,
         setEditingProduct,
         isProductFormOpen,

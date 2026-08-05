@@ -128,9 +128,10 @@ export const apiService = {
       const orders = getStored<Order[]>(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
       const index = orders.findIndex(o => o.id === id);
       if (index === -1) throw new Error('Order not found');
-      orders[index].status = status;
+      const updatedOrder = { ...orders[index], status };
+      orders[index] = updatedOrder;
       setStored(STORAGE_KEYS.ORDERS, orders);
-      return orders[index];
+      return updatedOrder;
     }
   },
 
