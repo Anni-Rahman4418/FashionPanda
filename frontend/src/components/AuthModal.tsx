@@ -7,24 +7,60 @@ export const AuthModal: React.FC = () => {
     isAuthOpen,
     setIsAuthOpen,
     currentUser,
+    isAuthenticated,
+    login,
+    logout,
     registerUser,
     orders,
     setActiveOrder,
     switchRole
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'profile' | 'orders' | 'register'>('profile');
+  const [activeTab, setActiveTab] = useState<'login' | 'profile' | 'orders' | 'register'>(
+    isAuthenticated ? 'profile' : 'login'
+  );
+
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
   const [regName, setRegName] = useState('');
   const [regEmail, setRegEmail] = useState('');
+  const [regPassword, setRegPassword] = useState('');
   const [regRole, setRegRole] = useState<'customer' | 'retailer' | 'admin'>('customer');
 
   if (!isAuthOpen) return null;
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError('');
+    setIsLoggingIn(true);
+    try {
+      await login(loginEmail, loginPassword);
+      setLoginEmail('');
+      setLoginPassword('');
+      setActiveTab('profile');
+      setIsAuthOpen(false);
+    } catch (err: any) {
+      setLoginError(err?.response?.data?.detail || 'Invalid email or password');
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setActiveTab('login');
+    setIsAuthOpen(false);
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     await registerUser({
       name: regName,
       email: regEmail,
+      password: regPassword,
       role: regRole,
       address: '100 Express Way, Zone 4'
     });
@@ -41,7 +77,9 @@ export const AuthModal: React.FC = () => {
             <UserIcon className="text-gradient" />
             <div>
               <h2 style={{ fontSize: '1.4rem', fontWeight: 800 }}>Account & Orders</h2>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Logged in as {currentUser.name}</p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                {isAuthenticated ? `Logged in as ${currentUser.name}` : 'You are browsing as a guest'}
+              </p>
             </div>
           </div>
           <button className="btn btn-secondary btn-icon" onClick={() => setIsAuthOpen(false)}>
@@ -50,7 +88,19 @@ export const AuthModal: React.FC = () => {
         </div>
 
         {/* TABS */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', borderBottom: '1px solid var(--border-glass)', paddingBottom: '12px' }}>
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', borderBottom: '1px solid var(--border-glass)', paddingBottom: '12px', flexWrap: 'wrap' }}>
+          {!isAuthenticated && (
+            <button
+              className="btn btn-sm"
+              style={{
+                background: activeTab === 'login' ? 'var(--accent-pink)' : '#f4f4f7',
+                color: activeTab === 'login' ? '#fff' : 'var(--text-muted)'
+              }}
+              onClick={() => setActiveTab('login')}
+            >
+              Log In
+            </button>
+          )}
           <button
             className="btn btn-sm"
             style={{
@@ -83,6 +133,51 @@ export const AuthModal: React.FC = () => {
           </button>
         </div>
 
+        {/* LOGIN TAB */}
+        {activeTab === 'login' && (
+          <form onSubmit={handleLogin}>
+            {loginError && (
+              <div
+                className="glass-card"
+                style={{ padding: '10px 14px', marginBottom: '16px', color: 'var(--accent-pink)', fontSize: '0.85rem', fontWeight: 600 }}
+              >
+                {loginError}
+              </div>
+            )}
+            <div className="form-group">
+              <label className="form-label">Email Address</label>
+              <input
+                type="email"
+                required
+                className="form-input"
+                value={loginEmail}
+                onChange={e => setLoginEmail(e.target.value)}
+                placeholder="anni@fashionpanda.com"
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: '20px' }}>
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                required
+                className="form-input"
+                value={loginPassword}
+                onChange={e => setLoginPassword(e.target.value)}
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={isLoggingIn}>
+              {isLoggingIn ? 'Logging in...' : 'Log In'}
+            </button>
+
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '12px', textAlign: 'center' }}>
+              Don't have an account? Use the "New Account" tab above.
+            </p>
+          </form>
+        )}
+
         {/* PROFILE TAB */}
         {activeTab === 'profile' && (
           <div>
@@ -106,6 +201,16 @@ export const AuthModal: React.FC = () => {
                 Admin Control
               </button>
             </div>
+
+            {isAuthenticated && (
+              <button
+                className="btn btn-secondary"
+                style={{ width: '100%', color: 'var(--accent-pink)', borderColor: 'var(--accent-pink)' }}
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
+            )}
           </div>
         )}
 
@@ -167,6 +272,19 @@ export const AuthModal: React.FC = () => {
                 value={regEmail}
                 onChange={e => setRegEmail(e.target.value)}
                 placeholder="anni@fashionpanda.com"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                required
+                minLength={6}
+                className="form-input"
+                value={regPassword}
+                onChange={e => setRegPassword(e.target.value)}
+                placeholder="At least 6 characters"
               />
             </div>
 
