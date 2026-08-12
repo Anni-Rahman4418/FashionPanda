@@ -14,8 +14,11 @@ interface AppContextType {
   // Auth & Roles
   currentUser: User;
   users: User[];
+  isAuthenticated: boolean;
   setCurrentUser: (user: User) => void;
   switchRole: (role: UserRole) => void;
+  login: (email: string, password: string) => Promise<User>;
+  logout: () => void;
   registerUser: (userData: Omit<User, 'id' | 'createdAt'>) => Promise<User>;
   updateUser: (id: string, updates: Partial<User>) => Promise<User>;
   deleteUser: (id: string) => Promise<void>;
@@ -72,6 +75,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [users, setUsers] = useState<User[]>(INITIAL_USERS);
   const [currentUser, setCurrentUser] = useState<User>(INITIAL_USERS[0]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
@@ -124,6 +128,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     loadInitialData();
   }, []);
 
+  // LOGIN (calls backend POST /api/login)
+  const login = async (email: string, password: string): Promise<User> => {
+    try {
+      const user = await apiService.login(email, password);
+      setCurrentUser(user);
+      setIsAuthenticated(true);
+      setUsers(prev => (prev.some(u => u.id === user.id) ? prev : [...prev, user]));
+      showToast(`Welcome back, ${user.name}!`, 'success');
+      return user;
+    } catch (err: any) {
+      const message = err?.response?.data?.detail || 'Invalid email or password';
+      showToast(message, 'error');
+      throw err;
+    }
+  };
+
+  // LOGOUT
+  const logout = () => {
+    setCurrentUser(INITIAL_USERS[0]);
+    setIsAuthenticated(false);
+    setActiveOrder(null);
+    setActiveView('marketplace');
+    showToast('Logged out successfully', 'info');
+  };
+
   // ROLE SWITCHER
   const switchRole = (role: UserRole) => {
     const existing = users.find(u => u.role === role);
@@ -140,6 +169,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setUsers(prev => [...prev, newUser]);
       setCurrentUser(newUser);
     }
+    setIsAuthenticated(true);
 
     if (role === 'retailer') setActiveView('retailer');
     else if (role === 'admin') setActiveView('admin');
@@ -153,6 +183,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const created = await apiService.createUser(userData);
     setUsers(prev => [...prev, created]);
     setCurrentUser(created);
+    setIsAuthenticated(true);
     showToast(`Welcome to FashionPanda, ${created.name}!`, 'success');
     return created;
   };
@@ -288,8 +319,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isBackendOnline,
         currentUser,
         users,
+        isAuthenticated,
         setCurrentUser,
         switchRole,
+        login,
+        logout,
         registerUser,
         updateUser,
         deleteUser,
