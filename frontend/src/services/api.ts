@@ -39,6 +39,12 @@ export const apiService = {
     }
   },
 
+  // AUTH
+  async login(email: string, password: string): Promise<User> {
+    const res = await axios.post(`${API_BASE}/login`, { email, password }, { timeout: 5000 });
+    return res.data.user;
+  },
+
   // PRODUCTS CRUD
   async getProducts(): Promise<Product[]> {
     try {
