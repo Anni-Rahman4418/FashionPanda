@@ -7,6 +7,7 @@ import { UserRole } from '../types';
 export const Navbar: React.FC = () => {
   const {
     currentUser,
+    isAuthenticated,
     switchRole,
     searchQuery,
     setSearchQuery,
@@ -151,10 +152,17 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => setIsAuthOpen(true)}
             className="btn btn-secondary"
-            style={{ padding: '6px 14px', borderRadius: 'var(--radius-full)' }}
+            style={{
+              padding: '6px 14px',
+              borderRadius: 'var(--radius-full)',
+              borderColor: isAuthenticated ? undefined : 'var(--accent-pink)',
+              color: isAuthenticated ? undefined : 'var(--accent-pink)'
+            }}
           >
             <UserIcon />
-            <span style={{ fontSize: '0.85rem' }}>{currentUser.name.split(' ')[0]}</span>
+            <span style={{ fontSize: '0.85rem' }}>
+              {isAuthenticated ? currentUser.name.split(' ')[0] : 'Log In'}
+            </span>
           </button>
 
         </div>
