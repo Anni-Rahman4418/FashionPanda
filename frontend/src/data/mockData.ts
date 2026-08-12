@@ -136,33 +136,46 @@ export const INITIAL_PRODUCTS: Product[] = [
     deliveryEtaMinutes: 35,
     isExpress: true,
     createdAt: '2026-07-18'
-  }
-];
+  },
 
-export const INITIAL_ORDERS: Order[] = [
+  /* ===== NEW: FOOTWEAR ADDITIONS START HERE ===== */
   {
-    id: 'ORD-9821',
-    userId: 'user-1',
-    userName: 'Anni Rahman',
-    userAddress: '742 Evergreen Terrace, Fashion District',
-    userPhone: '+1 (555) 019-2834',
-    items: [
-      {
-        product: INITIAL_PRODUCTS[0],
-        selectedSize: 'L',
-        selectedColor: 'Obsidian Black',
-        quantity: 1
-      }
-    ],
-    subtotal: 129.99,
-    deliveryFee: 4.99,
-    tax: 10.40,
-    totalAmount: 145.38,
-    paymentMethod: 'Credit Card',
-    status: 'On The Way',
-    estimatedDeliveryTime: '25 mins',
-    courierName: 'Marco (Panda Rider #14)',
-    courierPhone: '+1 (555) 988-1212',
-    createdAt: '2026-07-23 10:30'
-  }
-];
+    id: 'prod-107',
+    name: 'Classic Canvas Low-Top Sneakers',
+    description: 'Everyday canvas sneakers with cushioned insole and durable rubber sole. Effortless street style.',
+    price: 64.99,
+    originalPrice: 79.99,
+    category: 'Footwear',
+    imageUrl: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80',
+    stock: 40,
+    retailerId: 'user-2',
+    retailerName: 'Panda Kicks & Co',
+    sizes: ['38', '39', '40', '41', '42', '43'],
+    colors: ['Classic White', 'Jet Black', 'Off-White'],
+    rating: 4.6,
+    deliveryEtaMinutes: 35,
+    isExpress: true,
+    createdAt: '2026-07-20'
+  },
+  {
+    id: 'prod-108',
+    name: 'Everyday Comfort Running Shoes',
+    description: 'Lightweight knit-mesh running shoes with responsive foam midsole. Built for all-day wear.',
+    price: 99.00,
+    originalPrice: 120.00,
+    category: 'Footwear',
+    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
+    stock: 26,
+    retailerId: 'user-2',
+    retailerName: 'Panda Kicks & Co',
+    sizes: ['39', '40', '41', '42', '43', '44'],
+    colors: ['Storm Gray', 'Coral Pink', 'Midnight Navy'],
+    rating: 4.75,
+    deliveryEtaMinutes: 30,
+    isExpress: true,
+    createdAt: '2026-07-21'
+  },
+  {
+    id: 'prod-109',
+    name: 'Strappy Block-Heel Sandals',
+    description: 'Faux-leather strappy sandals with a comfortable block heel.
